@@ -6,18 +6,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: mysten/sui-tools:mainnet
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Get Sui SDK
-        run: |
-          wget -qO sui_folder.tgz https://github.com/MystenLabs/sui/releases/download/mainnet-v1.58.3/sui-mainnet-v1.58.3-ubuntu-x86_64.tgz
-          tar -xzf sui_folder.tgz
-          chmod +x sui
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Build Sui package and dump bytecode as base64
         run: |
-          ./sui move build --dump-bytecode-as-base64 > bytecode.json
+          sui move build --dump-bytecode-as-base64 > bytecode.json
 
       - name: Upload bytecode artifact
         uses: actions/upload-artifact@v4
