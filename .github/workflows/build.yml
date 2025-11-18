@@ -14,4 +14,21 @@ jobs:
 
       - name: Build Sui package and dump bytecode as base64
         run: |
-          sui move build --dump-bytecode-as-base64 --ignore-chain
+          sui move build --dump-bytecode-as-base64 --ignore-chain > bytecode.json
+
+      - name: Upload bytecode artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bytecode-${{ github.sha }}
+          path: bytecode.json
+          retention-days: 90
+
+      - name: Summary
+        run: |
+          echo "### Build Complete ✓" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Package:** \`pushtest\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Bytecode JSON:**" >> $GITHUB_STEP_SUMMARY
+          ls -lh bytecode.json | awk '{print "- `" $9 "` (" $5 ")"}' >> $GITHUB_STEP_SUMMARY
