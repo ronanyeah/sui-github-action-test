@@ -1,0 +1,12 @@
+[package]
+name = "pushtest"
+edition = "2024"
+
+[dependencies]
+
+[addresses]
+pushtest = "0x0"
+
+[dev-dependencies]
+
+[dev-addresses]
