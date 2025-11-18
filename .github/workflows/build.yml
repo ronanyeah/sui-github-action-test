@@ -14,4 +14,4 @@ jobs:
 
       - name: Build Sui package and dump bytecode as base64
         run: |
-          sui move build --dump-bytecode-as-base64
+          sui move build --dump-bytecode-as-base64 --ignore-chain
